@@ -14,7 +14,7 @@ use App\Contracts\Search;
 */
 
 Route::get('/', function (Search $search, Request $request) {
-	$results = $search->index('getstarted_actors')
-		->get($request->name);
+	$search->index('recipes');
+	$results = $search->get($request->name);
     return view('welcome', compact('results'));
 });

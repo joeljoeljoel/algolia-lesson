@@ -11,9 +11,12 @@
         <div class="container">
             <div class="content">
             <h1>Results</h1>
+                <form>
+                <input name="name" type="search" />
+                </form>
                 <ul class="list-group">
-                    @foreach ($results as $actor)
-                    <li class="list-group-item">{{ $actor['name'] }}: {{ $actor['alternative_name'] }}</li>
+                    @foreach ($results as $recipe)
+                    <li class="list-group-item">{{ $recipe['name'] }}</li>
                     @endforeach
                 </ul>
             </div>
