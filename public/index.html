@@ -12,11 +12,11 @@
         <div class="container">
             <input id="typeahead" type="text" v-model="query" v-on="keyup: search | key 'enter'" />
             <div class="content">
-            
+
                 <div id="results">
-                    <article v-repeat="actor: actors">
-                        <h2>{{{ actor._highlightResult.name.value }}}</h2>
-                        <h4 v-html="actor._highlightResult.alternative_name.value"><h4>
+                    <article v-repeat="recipe: recipes">
+                        <h2>{{{ recipe._highlightResult.name.value }}}</h2>
+                        <p>{{{ recipe._highlightResult.ingredients.value }}}</p>
                     </article>
                 </div>
             </div>
@@ -30,10 +30,10 @@
 
     new Vue({
         el: 'body',
-        
-        data: { 
-            query: '', 
-            actors: [] 
+
+        data: {
+            query: '',
+            recipes: []
         },
 
         ready: function () {
@@ -58,21 +58,26 @@
                 this.query = suggestion.name;
             }.bind(this));
         },
-        
+
         methods: {
             search: function() {
                 if (this.query.length < 3) {
                     return;
                 }
-                this.index.search(this.query, function (error, results) {
-                    this.actors = results.hits;
+
+                $('#typeahead').typeahead('close');
+
+                this.index.search(this.query, {
+                    hitsPerPage: 100
+                }, function (error, results) {
+                    this.recipes = results.hits;
 
                 }.bind(this));
             }
         }
     });
     (function () {
-        
+
     })();
 </script>
 </html>
