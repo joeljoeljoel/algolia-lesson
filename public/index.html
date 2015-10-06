@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Laravel</title>
+
+        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link href="/css/app.css" rel="stylesheet" type="text/css">
+
+    </head>
+    <body>
+        <div class="container">
+            <input id="typeahead" type="text" v-model="query" v-on="keyup: search | key 'enter'" />
+            <div class="content">
+            
+                <div id="results">
+                    <article v-repeat="actor: actors">
+                        <h2>{{{ actor._highlightResult.name.value }}}</h2>
+                        <h4 v-html="actor._highlightResult.alternative_name.value"><h4>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </body>
+<script src="//cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery/3.0.0-alpha1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/typeahead.js/0.11.1/typeahead.jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.16/vue.min.js"></script>
+<script>
+
+    new Vue({
+        el: 'body',
+        
+        data: { 
+            query: '', 
+            actors: [] 
+        },
+
+        ready: function () {
+            this.client = algoliasearch("1S9XAP924P", "c9dd8df8cca6f5c36edaaf853d727df4");
+            this.index = this.client.initIndex('getstarted_actors');
+            $('#typeahead').typeahead({
+                hint: false
+            }, {
+                source: this.index.ttAdapter(),
+                displayKey: 'name',
+                templates: {
+                    suggestion: function (hit) {
+                        console.log(hit);
+                        return (
+
+                            '<div>' +
+                                '<h2 class="name">' + hit._highlightResult.name.value + '</h2>' +
+                                '<h3 class="alternative_name">' + hit.alternative_name + '</h3>' +
+                            '</div>'
+                        )
+                    }
+                }
+            }).on('typeahead:select', function (e, suggestion) {
+                this.query = suggestion.name;
+            }.bind(this));
+        },
+        
+        methods: {
+            search: function() {
+                if (this.query.length < 3) {
+                    return;
+                }
+                this.index.search(this.query, function (error, results) {
+                    this.actors = results.hits;
+
+                }.bind(this));
+            }
+        }
+    });
+    (function () {
+        
+    })();
+</script>
+</html>

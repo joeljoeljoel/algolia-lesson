@@ -1,0 +1,39 @@
+body {
+	padding-top: 40px;
+}
+
+.container {
+	width: 900px;
+	margin: 0 auto;
+}
+
+
+input {
+	width: 500px
+}
+
+.tt-menu {
+	border: 1px solid #f1f1f1;
+	text-align: left;
+	position: relative;
+	z-index: 2;
+	width: 100%
+}
+
+.tt-suggestion {
+	padding: 20px 10px;
+	background: white;
+	border-bottom: 1px solid #f1f1f1;
+}
+
+.tt-suggestion h3 {
+	margin: 0;
+}
+
+.tt-suggestion h4 {
+	margin: 0;
+}
+
+.tt-cursor {
+	background: #e3e3e3;
+}
